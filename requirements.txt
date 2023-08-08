@@ -1,5 +1,5 @@
 Flask==2.2.5
-Jinja2==2.8
+Jinja2>=2.11.3
 matplotlib==1.5.1
 mpld3==0.2
 requests==2.18.1
