@@ -1,4 +1,4 @@
-Flask==0.10.1
+Flask==2.2.5
 Jinja2==2.8
 matplotlib==1.5.1
 mpld3==0.2
