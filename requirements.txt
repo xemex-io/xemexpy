@@ -2,7 +2,7 @@ Flask==2.2.5
 Jinja2>=2.11.3
 matplotlib==1.5.1
 mpld3==0.2
-requests==2.32.2
+requests==2.32.4
 exception==0.1.0
 APScheduler==3.0.0
 oauthlib==2.0.2
