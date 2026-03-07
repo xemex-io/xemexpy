@@ -46,11 +46,27 @@ def test_writexem_ignores_empty_messages(app_module, fake_tweepy):
     assert fake_tweepy.api_instances == []
 
 
-def test_writexem_posts_status_update(app_module, fake_tweepy):
+def test_writexem_skips_when_credentials_missing(app_module, fake_tweepy):
+    app_module.WriteXem("hello xem")
+
+    assert fake_tweepy.auth_instances == []
+    assert fake_tweepy.api_instances == []
+
+
+def test_writexem_posts_status_update(monkeypatch, app_module, fake_tweepy):
+    monkeypatch.setenv("TWITTER_API_KEY", "api-key")
+    monkeypatch.setenv("TWITTER_API_SECRET", "api-secret")
+    monkeypatch.setenv("TWITTER_ACCESS_TOKEN", "access-token")
+    monkeypatch.setenv("TWITTER_ACCESS_TOKEN_SECRET", "access-token-secret")
+
     app_module.WriteXem("hello xem")
 
     assert len(fake_tweepy.auth_instances) == 1
     assert len(fake_tweepy.api_instances) == 1
+    assert fake_tweepy.auth_instances[0].app_key == "api-key"
+    assert fake_tweepy.auth_instances[0].app_secret == "api-secret"
+    assert fake_tweepy.auth_instances[0].access_token == "access-token"
+    assert fake_tweepy.auth_instances[0].access_token_secret == "access-token-secret"
     assert fake_tweepy.api_instances[0].auth is fake_tweepy.auth_instances[0]
     assert fake_tweepy.api_instances[0].updated_statuses == ["hello xem"]
 

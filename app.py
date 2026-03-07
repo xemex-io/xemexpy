@@ -6,6 +6,15 @@ from flask import Flask
 
 app = Flask(__name__)
 
+
+def get_twitter_credentials():
+    return {
+        "app_key": os.environ.get("TWITTER_API_KEY") or os.environ.get("TWITTER_APP_KEY"),
+        "app_secret": os.environ.get("TWITTER_API_SECRET") or os.environ.get("TWITTER_APP_SECRET"),
+        "access_token": os.environ.get("TWITTER_ACCESS_TOKEN"),
+        "access_token_secret": os.environ.get("TWITTER_ACCESS_TOKEN_SECRET"),
+    }
+
 @app.route('/')
 def about():
     return 'XemexPY: v0.0.1'
@@ -32,14 +41,13 @@ def WriteXem(msg):
     if msg is None or len(msg) == 0: 
         return
 
-    # Consumer keys and access tokens
-    app_key             = 'S2X7ea1hyUpS2ODi31YkPZFYw'
-    app_secret          = 'ZbjW92l4ZcdWPpP30dmE4BlMDYfgL23idwX33hVE2QOivvJhOR'
-    access_token        = '883905178486710272-wmeoOHKrk26NyKvrKGzc3egPvtXemh2'
-    access_token_secret = 'p1tDRNoLqJct9234EifvQNoUoSiltducyzfsUE3Gihiye'
+    credentials = get_twitter_credentials()
+    if not all(credentials.values()):
+        print("Twitter credentials not configured; skipping status update.")
+        return
 
-    auth = tweepy.OAuthHandler(app_key,app_secret)
-    auth.set_access_token(access_token,access_token_secret)
+    auth = tweepy.OAuthHandler(credentials["app_key"], credentials["app_secret"])
+    auth.set_access_token(credentials["access_token"], credentials["access_token_secret"])
     api = tweepy.API(auth)
     try:
         print("Sending twitter update '%s' " % msg)
