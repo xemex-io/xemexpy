@@ -10,6 +10,6 @@ def timed_job():
     url = "https://xemexpy.herokuapp.com/price"
     try:
       requests.get(url)
-    except BaseException as ex:
+    except BaseException:
       print(format_exc())
 sched.start()

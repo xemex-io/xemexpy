@@ -1,8 +1,5 @@
 import os
-import sys
-import json
 import requests
-import time
 import tweepy
 from traceback import format_exc
 from flask import Flask
@@ -22,7 +19,7 @@ def price():
      r = requests.get(url)
      price = r.json()[pair]["last"]
      msg = "Latest price for %s @ Poloniex : %s" % (pair,price)
-   except BaseException as ex:
+   except BaseException:
      print(format_exc())
      return ""
    if msg:
@@ -47,7 +44,7 @@ def WriteXem(msg):
     try:
         print("Sending twitter update '%s' " % msg)
         api.update_status(msg)
-    except BaseException as ex:
+    except BaseException:
         print(format_exc())
 
 if __name__ == '__main__':
