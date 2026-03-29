@@ -32,7 +32,7 @@ oauthlib==3.3.1
     #   requests-oauthlib
     #   tweepy
     #   xemexpy
-requests==2.32.4
+requests==2.33.0
     # via
     #   requests-oauthlib
     #   tweepy
